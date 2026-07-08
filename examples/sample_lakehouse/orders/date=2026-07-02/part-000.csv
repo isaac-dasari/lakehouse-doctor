@@ -1,0 +1,3 @@
+order_id,customer_id,amount,status
+1004,C004,11.20,cancelled
+1002,C002,19.99,pending
