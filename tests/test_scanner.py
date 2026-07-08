@@ -5,7 +5,9 @@ from lakehouse_doctor.scanner import scan_lakehouse
 
 
 def test_scan_detects_expected_findings() -> None:
-    result = scan_lakehouse(ScanConfig(root_path=Path("examples/sample_lakehouse"), primary_key="order_id"))
+    result = scan_lakehouse(
+        ScanConfig(root_path=Path("examples/sample_lakehouse"), primary_key="order_id")
+    )
     codes = {finding.code for finding in result.findings}
 
     assert result.table_count == 2
