@@ -1,0 +1,2 @@
+order_id,customer_id,amount,status,coupon_code
+1005,C005,61.00,shipped,SUMMER
