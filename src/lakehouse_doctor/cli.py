@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Annotated
 
 import typer
 from rich.console import Console
@@ -21,10 +22,10 @@ DEFAULT_HTML = Path(".lakehouse-doctor/report.html")
 @app.command()
 def scan(
     path: Path,
-    output: Path = typer.Option(DEFAULT_OUTPUT, "--output", "-o"),
-    primary_key: str | None = typer.Option(None, "--primary-key"),
-    freshness_days: int = typer.Option(30, "--freshness-days"),
-    small_file_threshold_kb: int = typer.Option(128, "--small-file-threshold-kb"),
+    output: Annotated[Path, typer.Option("--output", "-o")] = DEFAULT_OUTPUT,
+    primary_key: Annotated[str | None, typer.Option("--primary-key")] = None,
+    freshness_days: Annotated[int, typer.Option("--freshness-days")] = 30,
+    small_file_threshold_kb: Annotated[int, typer.Option("--small-file-threshold-kb")] = 128,
 ) -> None:
     """Scan a local lakehouse folder."""
 
@@ -45,9 +46,9 @@ def scan(
 
 @app.command()
 def report(
-    input_path: Path = typer.Option(DEFAULT_OUTPUT, "--input", "-i"),
-    html: bool = typer.Option(False, "--html"),
-    output: Path = typer.Option(DEFAULT_HTML, "--output", "-o"),
+    input_path: Annotated[Path, typer.Option("--input", "-i")] = DEFAULT_OUTPUT,
+    html: Annotated[bool, typer.Option("--html")] = False,
+    output: Annotated[Path, typer.Option("--output", "-o")] = DEFAULT_HTML,
 ) -> None:
     """Print the latest scan report."""
 
