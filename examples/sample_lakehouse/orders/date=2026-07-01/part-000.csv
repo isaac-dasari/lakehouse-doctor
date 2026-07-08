@@ -1,0 +1,4 @@
+order_id,customer_id,amount,status
+1001,C001,42.50,shipped
+1002,C002,19.99,pending
+1003,C003,84.10,shipped
