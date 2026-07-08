@@ -10,7 +10,9 @@ from lakehouse_doctor.models import Finding
 
 
 def check_schema_drift(root: Path, files: list[Path]) -> list[Finding]:
-    schemas_by_table: dict[str, dict[tuple[str, ...], list[str]]] = defaultdict(lambda: defaultdict(list))
+    schemas_by_table: dict[str, dict[tuple[str, ...], list[str]]] = defaultdict(
+        lambda: defaultdict(list)
+    )
 
     for path in files:
         if not is_csv_file(path):
@@ -29,7 +31,10 @@ def check_schema_drift(root: Path, files: list[Path]) -> list[Finding]:
                 severity="error",
                 path=str(root / table),
                 message=f"{table} has {len(schemas)} distinct CSV schemas",
-                metadata={"schema_count": len(schemas), "schemas": [list(schema) for schema in schemas]},
+                metadata={
+                    "schema_count": len(schemas),
+                    "schemas": [list(schema) for schema in schemas],
+                },
             )
         )
 
