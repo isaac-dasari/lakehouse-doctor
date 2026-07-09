@@ -33,8 +33,12 @@ jobs:
 
       - name: Run demo workflow
         run: |
-          lakehouse-doctor scan examples/sample_lakehouse --primary-key order_id --output report.json
-          lakehouse-doctor report --input report.json --html --output report.html
-          test -f report.json
+          lakehouse-doctor scan examples/sample_lakehouse --primary-key order_id --output baseline.json
+          lakehouse-doctor report --input baseline.json --html --output report.html
+          lakehouse-doctor check --input baseline.json --fail-on critical
+          lakehouse-doctor scan examples/sample_lakehouse --primary-key order_id --output latest.json
+          lakehouse-doctor compare baseline.json latest.json
+          test -f baseline.json
+          test -f latest.json
           test -f report.html
           lakehouse-doctor rules
