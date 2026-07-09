@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -36,6 +37,12 @@ class ScanResult:
     file_count: int
     total_bytes: int
     findings: list[Finding]
+    format_counts: dict[str, int] = field(default_factory=dict)
+    table_file_counts: dict[str, int] = field(default_factory=dict)
+
+    def severity_counts(self) -> dict[str, int]:
+        counts = Counter(finding.severity for finding in self.findings)
+        return {"error": counts.get("error", 0), "warn": counts.get("warn", 0), "info": counts.get("info", 0)}
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -43,5 +50,8 @@ class ScanResult:
             "table_count": self.table_count,
             "file_count": self.file_count,
             "total_bytes": self.total_bytes,
+            "format_counts": self.format_counts,
+            "table_file_counts": self.table_file_counts,
+            "severity_counts": self.severity_counts(),
             "findings": [finding.to_dict() for finding in self.findings],
         }
