@@ -12,6 +12,7 @@ def test_scan_detects_expected_findings() -> None:
 
     assert result.table_count == 2
     assert result.file_count == 6
+    assert result.format_counts == {"csv": 6}
     assert "SMALL_FILES" in codes
     assert "SCHEMA_DRIFT" in codes
     assert "DUPLICATE_KEYS" in codes
@@ -22,3 +23,4 @@ def test_scan_accepts_path_input() -> None:
 
     assert result.file_count == 6
     assert result.total_bytes > 0
+    assert result.severity_counts()["warn"] >= 1
